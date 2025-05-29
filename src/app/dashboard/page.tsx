@@ -5,6 +5,7 @@ import { useAssetStore } from "@/store/useAssetStore";
 import { fetchUSDTBalance, fetchUSDTTransactions } from "@/lib/api";
 import { WALLET_ADDRESS, USDT_CONTRACT } from "@/lib/constants";
 import { formatDate } from "@/lib/format";
+import { TbFaceIdError } from "react-icons/tb";
 
 type Transaction = {
   from: string;
@@ -46,19 +47,51 @@ export default function Page() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center p-4">
-        <p>로딩 중...</p>
+      <div className="flex flex-col gap-4 animate-pulse">
+        <div className="flex flex-row justify-between gap-4">
+          <div className="p-4 border border-[#e9ecef] rounded-2xl bg-white shadow-xs w-[70%]">
+            <div className="h-5 bg-gray-300 rounded w-24 mb-3"></div>
+            <div className="h-4 bg-gray-200 rounded w-64"></div>
+          </div>
+          <div className="p-4 border border-[#e9ecef] rounded-2xl bg-white shadow-xs flex-grow">
+            <div className="h-5 bg-gray-300 rounded w-20 mb-3"></div>
+            <div className="h-4 bg-gray-200 rounded w-32"></div>
+          </div>
+        </div>
+        <div className="p-4 border border-[#e9ecef] rounded-2xl bg-white shadow-xs w-full">
+          <div className="h-6 bg-gray-300 rounded w-32 mb-4"></div>
+          <div className="space-y-2">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="flex justify-between items-center border-b border-gray-100 py-2"
+              >
+                <div className="h-4 bg-gray-200 rounded w-16"></div>
+                <div className="h-4 bg-gray-200 rounded w-24"></div>
+                <div className="h-4 bg-gray-200 rounded w-32"></div>
+                <div className="h-4 bg-gray-200 rounded w-20"></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="w-full bg-gray-100 min-h-screen flex flex-col items-center p-4">
-        <p className="text-red-500">불러오는 데 실패했습니다.</p>
+      <div className="w-full h-[500px] flex flex-col items-center justify-center">
+        <TbFaceIdError className="size-30 mb-2" />
+        <div className="text-gray-900 font-semibold text-2xl mb-4">
+          잠시 후 다시 시도해주세요.
+        </div>
+        <div className="text-gray-800 text-md mb-4 text-center">
+          요청사항을 처리하는 데 실패했습니다. <br />
+          네트워크 상태를 확인하거나, 다시 시도해 주세요.
+        </div>
         <button
           onClick={() => location.reload()}
-          className="mt-2 underline text-blue-500 cursor-pointer"
+          className="cursor-pointer px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-900 transition"
         >
           다시 시도
         </button>
