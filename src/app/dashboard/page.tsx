@@ -23,7 +23,7 @@ export default function Page() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!walletAddress) {
+    if (!walletAddress || !hasHydrated) {
       setLoading(false);
       return;
     }
@@ -47,7 +47,7 @@ export default function Page() {
     }
 
     loadData();
-  }, [walletAddress]);
+  }, [walletAddress, hasHydrated]);
 
   if (!walletAddress) {
     return (
@@ -124,12 +124,16 @@ export default function Page() {
         <div className="p-4 border border-[#e9ecef] rounded-2xl bg-white shadow-xs">
           <div className="font-bold text-xl mb-2">잔고</div>
           {usdtEnabled ? (
-            <div className="text-gray-700 flex flex-row items-end">
-              <div className="font-semibold text-lg">
-                {balance!.toFixed(2)}&nbsp;
+            balance !== null ? (
+              <div className="flex flex-row items-end">
+                <div className="font-semibold text-lg">
+                  {balance.toFixed(2)}
+                </div>
+                &nbsp;<span>USDT</span>
               </div>
-              <div className="text-md">USDT</div>
-            </div>
+            ) : (
+              <span className="text-gray-400">로딩 중...</span>
+            )
           ) : (
             <div className="text-gray-700">잔액 숨김</div>
           )}
