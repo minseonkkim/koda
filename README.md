@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🪙 KODA - 신규 블록체인 통합 UI
 
-## Getting Started
+KODA는 이더리움 지갑 주소를 기반으로 신규 블록체인 기반 자산 정보를 조회하고 관리할 수 있는 플랫폼입니다.  
 
-First, run the development server:
+
+
+## ✨ 주요 기능 요약
+
+| 기능               | 설명                                                                                   |
+|--------------------|------------------------------------------------------------------------------------------|
+| 지갑 주소 입력        | 사용자가 Ethereum 지갑 주소를 입력하면 해당 주소의 자산 정보를 조회할 수 있습니다.          |
+| USDT 잔액 조회        | Etherscan API를 통해 해당 지갑의 잔액을 실시간으로 확인할 수 있습니다.                |
+| USDT 트랜잭션 내역    | 송금/입금 주소와 시간 정보가 포함된 최근 5건의 트랜잭션 목록을 테이블 형태로 확인할 수 있습니다.  |
+| 자산 표시 설정        | USDT 자산의 표시 여부를 설정할 수 있으며, 이 설정은 localStorage에 저장되어 유지됩니다.     |
+| 로딩 및 오류 처리     | 데이터 로딩 중 Skeleton UI를 제공하며, 오류 발생 시 사용자에게 안내 메시지를 표시합니다.     |
+
+
+
+## 🛠️ 기술 스택
+
+- **프레임워크**: Next.js (App Router)
+- **언어**: TypeScript
+- **스타일링**: Tailwind CSS
+- **상태관리**: Zustand
+- **API 통신**: Axios
+- **배포**: Vercel
+
+
+
+## 🚀 실행 방법
 
 ```bash
+# 1. 환경 변수 설정
+# 프로젝트 루트에 .env.local 파일 생성 후 아래 내용 추가
+NEXT_PUBLIC_ETHERSCAN_API_KEY=55238WABUMWIECNUXGCRUUCZBY7TSUQTHS
+
+# 2. 의존성 설치
+npm install
+
+# 3. 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 4. 접속
+# 브라우저에서 아래 주소로 접속
+http://localhost:3000
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
