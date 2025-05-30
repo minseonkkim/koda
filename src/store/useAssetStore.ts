@@ -38,16 +38,25 @@ export const useEthStore = create<EthState>()(
 type WalletState = {
   walletAddress: string;
   setWalletAddress: (addr: string) => void;
+
+  hasHydrated: boolean;
+  setHasHydrated: () => void;
 };
 
 export const useWalletStore = create<WalletState>()(
   persist(
     (set) => ({
       walletAddress: "0x128692A587c09DCc1F9306530E64E1302b5E83FF",
-      setWalletAddress: (addr) => set({ walletAddress: addr }),
+      setWalletAddress: (addr: string) => set({ walletAddress: addr }),
+
+      hasHydrated: false,
+      setHasHydrated: () => set({ hasHydrated: true }),
     }),
     {
       name: "wallet_address",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated();
+      },
     }
   )
 );

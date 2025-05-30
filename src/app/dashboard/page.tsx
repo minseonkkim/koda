@@ -16,7 +16,7 @@ type Transaction = {
 
 export default function Page() {
   const { usdtEnabled } = useUsdtStore();
-  const { walletAddress } = useWalletStore();
+  const { walletAddress, hasHydrated } = useWalletStore();
   const [balance, setBalance] = useState<number | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
@@ -57,7 +57,7 @@ export default function Page() {
     );
   }
 
-  if (loading) {
+  if (loading || !hasHydrated) {
     return (
       <div className="flex flex-col gap-4 animate-pulse">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
