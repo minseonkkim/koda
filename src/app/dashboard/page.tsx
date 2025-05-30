@@ -22,8 +22,6 @@ export default function Page() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!usdtEnabled) return;
-
     async function loadData() {
       try {
         setLoading(true);
@@ -43,7 +41,7 @@ export default function Page() {
     }
 
     loadData();
-  }, [usdtEnabled]);
+  }, []);
 
   if (loading) {
     return (
