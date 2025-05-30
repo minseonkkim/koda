@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAssetStore } from "@/store/useAssetStore";
+import { useUsdtStore } from "@/store/useAssetStore";
 import { fetchUSDTBalance, fetchUSDTTransactions } from "@/lib/api";
 import { WALLET_ADDRESS, USDT_CONTRACT } from "@/lib/constants";
 import { formatDate } from "@/lib/format";
@@ -15,7 +15,7 @@ type Transaction = {
 };
 
 export default function Page() {
-  const { usdtEnabled } = useAssetStore();
+  const { usdtEnabled } = useUsdtStore();
   const [balance, setBalance] = useState<number | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);

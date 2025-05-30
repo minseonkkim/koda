@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type AssetState = {
+type UsdtState = {
   usdtEnabled: boolean;
   setUsdtEnabled: (enabled: boolean) => void;
 };
 
-export const useAssetStore = create<AssetState>()(
+export const useUsdtStore = create<UsdtState>()(
   persist(
     (set) => ({
       usdtEnabled: true,
@@ -14,6 +14,23 @@ export const useAssetStore = create<AssetState>()(
     }),
     {
       name: "usdt_enabled",
+    }
+  )
+);
+
+type EthState = {
+  ethEnabled: boolean;
+  setEthEnabled: (enabled: boolean) => void;
+};
+
+export const useEthStore = create<EthState>()(
+  persist(
+    (set) => ({
+      ethEnabled: true,
+      setEthEnabled: (enabled) => set({ ethEnabled: enabled }),
+    }),
+    {
+      name: "eth_enabled",
     }
   )
 );
