@@ -1,5 +1,7 @@
 "use client";
 
+import Card from "@/components/Card";
+import { IoArrowBackOutline } from "react-icons/io5";
 import { isValidEthereumAddress } from "@/lib/validate";
 import {
   useEthStore,
@@ -7,6 +9,7 @@ import {
   useWalletStore,
 } from "@/store/useAssetStore";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SettingsPage() {
   const { setWalletAddress } = useWalletStore();
@@ -23,11 +26,25 @@ export default function SettingsPage() {
     alert("지갑 주소가 저장되었습니다.");
   };
 
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.back();
+  };
+
   return (
-    <div className="w-full mx-auto px-6 py-8 bg-white border border-gray-200 rounded-2xl shadow-xs">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-8 text-center">
-        설정
-      </h1>
+    <Card>
+      <div className="flex flex-row items-center justify-between mb-8">
+        <IoArrowBackOutline
+          size={24}
+          className="text-gray-500 hover:text-gray-800 cursor-pointer"
+          onClick={handleClick}
+        />
+        <h1 className="text-2xl font-semibold text-gray-800 text-center">
+          설정
+        </h1>
+        <div></div>
+      </div>
 
       <div className="flex items-center justify-between mb-4">
         <span className="text-gray-700">ETH 사용 설정</span>
@@ -101,6 +118,6 @@ export default function SettingsPage() {
           </p>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

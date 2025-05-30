@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useUsdtStore, useWalletStore } from "@/store/useAssetStore";
 import { fetchUSDTBalance, fetchUSDTTransactions } from "@/lib/api";
 import { USDT_CONTRACT } from "@/lib/constants";
-import { formatDate } from "@/lib/format";
 import { TbFaceIdError } from "react-icons/tb";
+import { WalletInfoCard } from "@/components/WalletInfoCard";
+import { BalanceCard } from "@/components/BalanceCard";
+import { TransactionTable } from "@/components/TransactionTable";
 
-type Transaction = {
+export type Transaction = {
   from: string;
   to: string;
   value: string;
@@ -39,8 +41,8 @@ export default function Page() {
         setTransactions(tx);
         setError(false);
       } catch (err) {
-        setError(true);
         console.error(err);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -117,82 +119,18 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-4 border border-[#e9ecef] rounded-2xl bg-white shadow-xs">
-          <div className="font-bold text-xl mb-3">지갑 주소</div>
-          <div className="text-md text-gray-700 truncate">{walletAddress}</div>
-        </div>
-        <div className="p-4 border border-[#e9ecef] rounded-2xl bg-white shadow-xs">
-          <div className="font-bold text-xl mb-2">잔고</div>
-          {usdtEnabled ? (
-            balance !== null ? (
-              <div className="flex flex-row items-end">
-                <div className="font-semibold text-lg">
-                  {balance.toFixed(2)}
-                </div>
-                &nbsp;<span>USDT</span>
-              </div>
-            ) : (
-              <span className="text-gray-400">로딩 중...</span>
-            )
-          ) : (
-            <div className="text-gray-700">잔액 숨김</div>
-          )}
-        </div>
+        <WalletInfoCard walletAddress={walletAddress} />
+        <BalanceCard usdtEnabled={usdtEnabled} balance={balance} />
       </div>
       <div className="p-4 border border-[#e9ecef] rounded-2xl bg-white shadow-xs w-full">
         <div className="text-xl font-semibold text-gray-900 mb-4">
           최근 거래 내역
         </div>
         {usdtEnabled ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-md table-auto">
-              <thead>
-                <tr className="bg-gray-100 text-gray-600 text-sm uppercase text-center">
-                  <th className="p-2">구분</th>
-                  <th className="p-2">시각</th>
-                  <th className="p-2">상대 주소</th>
-                  <th className="p-2">수량</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((tx, idx) => {
-                  const isSend =
-                    tx.from.toLowerCase() === walletAddress.toLowerCase();
-                  const amount = Number(tx.value) / 10 ** 6;
-                  const formatted = formatDate(tx.timeStamp);
-
-                  return (
-                    <tr
-                      key={idx}
-                      className="border-b border-gray-200 transition-colors text-center"
-                    >
-                      <td className="p-2 font-medium">
-                        <span
-                          className={`inline-flex items-center font-semibold gap-1 ${
-                            isSend ? "text-red-500" : "text-green-600"
-                          }`}
-                        >
-                          {isSend ? "📤 출금" : "📥 입금"}
-                        </span>
-                      </td>
-                      <td className="p-2 text-gray-700">{formatted}</td>
-                      <td className="p-2 max-w-[160px] truncate text-gray-600">
-                        {isSend ? tx.to : tx.from}
-                      </td>
-                      <td
-                        className={`p-2 font-semibold ${
-                          isSend ? "text-red-500" : "text-green-600"
-                        }`}
-                      >
-                        {isSend ? "-" : "+"}
-                        {amount.toFixed(5)}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <TransactionTable
+            transactions={transactions}
+            walletAddress={walletAddress}
+          />
         ) : (
           <div className="text-gray-700">거래 내역 숨김</div>
         )}
